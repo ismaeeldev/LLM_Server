@@ -16,6 +16,77 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ limit: '10mb' })); // Increased limit for transcripts
 
+// Default route - show server status
+app.get("/", (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>YouTube AI Server</title>
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    max-width: 800px; 
+                    margin: 0 auto; 
+                    padding: 40px 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    text-align: center;
+                }
+                .container {
+                    background: rgba(255, 255, 255, 0.1);
+                    padding: 40px;
+                    border-radius: 15px;
+                    backdrop-filter: blur(10px);
+                }
+                h1 { 
+                    font-size: 2.5em; 
+                    margin-bottom: 20px;
+                    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+                }
+                .status {
+                    background: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    display: inline-block;
+                    font-weight: bold;
+                    margin: 20px 0;
+                }
+                .endpoints {
+                    text-align: left;
+                    background: rgba(255, 255, 255, 0.2);
+                    padding: 20px;
+                    border-radius: 10px;
+                    margin: 30px 0;
+                }
+                code {
+                    background: rgba(0, 0, 0, 0.3);
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    font-family: 'Courier New', monospace;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>🎥 YouTube AI Server</h1>
+                <div class="status">🟢 Server is running moody</div>
+                
+                <div class="endpoints">
+                    <h3>📡 Available Endpoints:</h3>
+                    <p><strong>GET</strong> <code>/</code> - This status page</p>
+                    <p><strong>GET</strong> <code>/health</code> - Health check</p>
+                    <p><strong>POST</strong> <code>/ask-youtube</code> - Ask questions about YouTube videos</p>
+                </div>
+                
+                <p>Server time: ${new Date().toLocaleString()}</p>
+                <p>Ready to process YouTube queries! 🚀</p>
+            </div>
+        </body>
+        </html>
+    `);
+});
 // Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
